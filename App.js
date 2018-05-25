@@ -5,23 +5,36 @@
  */
 
 import React, { Component } from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight
+} from "react-native";
+
+const list = [{ key: "Example 1" }, { key: "Example 2" }];
 
 type Props = {};
 export default class App extends Component<Props> {
+  _onPress() {}
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.container}>
           <FlatList
-            data={[
-              {
-                key:
-                  "what if we use very long text long text long text long text long text"
-              },
-              { key: "some more text" }
-            ]}
-            renderItem={({ item }) => <ListItem name={item.key} />}
+            ItemSeparatorComponent={() => <View style={styles.line} />}
+            data={list}
+            renderItem={({ item, separators }) => (
+              <TouchableHighlight
+                onPress={() => this._onPress(item)}
+                onShowUnderlay={separators.highlight}
+                onHideUnderlay={separators.unhighlight}
+              >
+                <ListItem name={item.key} />
+              </TouchableHighlight>
+            )}
           />
         </View>
       </SafeAreaView>
@@ -34,17 +47,19 @@ export class ListItem extends Component<ListItemProps> {
   render() {
     return (
       <View style={styles.listItem}>
-        <View style={styles.line} />
         <Text style={styles.listItemText} numberOfLines={1}>
           {this.props.name}
         </Text>
-        <View style={styles.line} />
       </View>
     );
   }
 }
 
-const colors = { text: "#333333", background: "#F5FCCA", line: "#DDD" };
+const colors = {
+  text: "#333333",
+  background: "#F5FFFE",
+  line: "#DDD"
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +75,7 @@ const styles = StyleSheet.create({
   listItem: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "center",
     height: 44
   },
   line: {
