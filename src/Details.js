@@ -1,17 +1,12 @@
 // @flow
 import React, { Component } from "react";
 import { View, Button, Text } from "react-native";
-import PropTypes from "prop-types";
+import { NavigationScreenProp, NavigationStateRoute } from "react-navigation";
 
-type Props = {};
-export default class DetailsScreen extends Component<Props> {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      getParam: PropTypes.func.isRequired
-    }).isRequired
-  };
+type DetailsProps = {
+  navigation: NavigationScreenProp<NavigationStateRoute>
+};
+export default class DetailsScreen extends Component<DetailsProps> {
   render() {
     const itemId = this.props.navigation.getParam("itemId", 0);
     return (

@@ -6,16 +6,10 @@
 
 import React, { Component } from "react";
 import { StyleSheet, Text, Button, View } from "react-native";
-import PropTypes from "prop-types";
+import { NavigationScreenProp, NavigationStateRoute } from "react-navigation";
 
-type Props = { name: string };
+type Props = { navigation: NavigationScreenProp<NavigationStateRoute> };
 export default class MainScreen extends Component<Props> {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-      getParam: PropTypes.func.isRequired
-    }).isRequired
-  };
   render() {
     const itemId = this.props.navigation.getParam("itemId", 0);
     return (
