@@ -5,51 +5,28 @@
  */
 
 import React, { Component } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight
-} from "react-native";
+import { StyleSheet, Text, Button, View } from "react-native";
+import PropTypes from "prop-types";
 
-const list = [{ key: "Example 1" }, { key: "Example 2" }];
-
-type Props = {};
-export default class App extends Component<Props> {
-  _onPress() {}
+type Props = { name: string };
+export default class MainScreen extends Component<Props> {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+      getParam: PropTypes.func.isRequired
+    }).isRequired
+  };
   render() {
+    const itemId = this.props.navigation.getParam("itemId", 0);
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
-          <FlatList
-            ItemSeparatorComponent={() => <View style={styles.line} />}
-            data={list}
-            renderItem={({ item, separators }) => (
-              <TouchableHighlight
-                onPress={() => this._onPress(item)}
-                onShowUnderlay={separators.highlight}
-                onHideUnderlay={separators.unhighlight}
-              >
-                <ListItem name={item.key} />
-              </TouchableHighlight>
-            )}
-          />
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
-
-type ListItemProps = { name: string };
-export class ListItem extends Component<ListItemProps> {
-  render() {
-    return (
-      <View style={styles.listItem}>
-        <Text style={styles.listItemText} numberOfLines={1}>
-          {this.props.name}
-        </Text>
+      <View style={styles.container}>
+        <Text>Hello world, itemId: {JSON.stringify(itemId)}</Text>
+        <Button
+          title="Go To Details"
+          onPress={() =>
+            this.props.navigation.navigate("Details", { itemId: itemId + 1 })
+          }
+        />
       </View>
     );
   }
@@ -57,29 +34,14 @@ export class ListItem extends Component<ListItemProps> {
 
 const colors = {
   text: "#333333",
-  background: "#F5FFFE",
-  line: "#DDD"
+  background: "#F5FFFE"
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background
-  },
-  listItemText: {
-    marginLeft: 20,
-    marginRight: 20,
-    color: colors.text,
-    fontSize: 20
-  },
-  listItem: {
-    flex: 1,
-    flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
-    height: 44
-  },
-  line: {
-    height: 0.5,
-    backgroundColor: colors.line
+    backgroundColor: colors.background
   }
 });
